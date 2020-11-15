@@ -1,9 +1,9 @@
-import numpy as np
-from scipy import signal as sp
 import matplotlib.pylab as plt
+import numpy as np
 import scipy.signal as signal
 import scipy.stats as stats
 import streamlit as st
+from scipy import signal as signal
 
 
 def u(amplitud, t):
@@ -16,7 +16,7 @@ def u(amplitud, t):
     Returns:
         list: Lista de valores
     """
-    return amplitud*np.piecewise(t, [t < 0.0, t >= 0.0], [0, 1])
+    return amplitud * np.piecewise(t, [t < 0.0, t >= 0.0], [0, 1])
 
 
 def OndaCuadrada(amplitud, t, fs=1):
@@ -30,11 +30,11 @@ def OndaCuadrada(amplitud, t, fs=1):
     Returns:
         list: Lista de valores
     """
-    return ((sp.square(2 * fs*t)) * (amplitud / 2.0)) + (amplitud / 2.0)
+    return ((sp.square(2 * fs * t)) * (amplitud / 2.0)) + (amplitud / 2.0)
 
 
 def segnal_triangular(amplitud, simetria, t, fs=1):
-    """Señal triangular 
+    """Señal triangular
 
     Args:
         amplitud (int): Amplitud de la señal
@@ -45,11 +45,11 @@ def segnal_triangular(amplitud, simetria, t, fs=1):
     Returns:
         list: Lista de valores de la señal
     """
-    return amplitud*(signal.sawtooth(2 * np.pi * fs * t, simetria))
+    return amplitud * (signal.sawtooth(2 * np.pi * fs * t, simetria))
 
 
 def seno(amplitud, t, fs=1):
-    """ Onda Seno
+    """Onda Seno
 
     Args:
         amplitud (int): Amplitud de la señal
@@ -59,7 +59,7 @@ def seno(amplitud, t, fs=1):
     Returns:
         list: Lista de valores de la señal de seno
     """
-    return amplitud*np.sin(fs*t)
+    return amplitud * np.sin(fs * t)
 
 
 def coseno(amplitud, t, fs=1):
@@ -73,14 +73,14 @@ def coseno(amplitud, t, fs=1):
     Returns:
         list: Lista de valores de la señal
     """
-    return amplitud*np.cos(fs*t)
+    return amplitud * np.cos(fs * t)
 
 
 def tiempo(lim_inf, lim_sup, n):
     """Lista de valores que definen el tiempo de la señal
 
     Args:
-        lim_inf (int): Límite inferior del tiempo 
+        lim_inf (int): Límite inferior del tiempo
         lim_sup (int): Límite superior del tiempo
         n (int): Cantidad de valores a generar del tiempo
 
@@ -101,9 +101,9 @@ def plot_signal(xi, xf, yi, yf, t, titulo, etiqueta, values):
         t (list): lista de valores de tiempo
         titulo (str): Título de la gráfica
         etiqueta (str): Etiqueta de la señal.
-        values (list): Valores de la señal 
+        values (list): Valores de la señal
     """
-    plot(t, values, 'k', label=etiqueta, lw=2)
+    plot(t, values, "k", label=etiqueta, lw=2)
     xlim(xi, xf)
 
 
@@ -111,25 +111,26 @@ def main():
     # Definir título
     st.title("Generación de gráficas de señales")
     st.sidebar.header("Entradas:")
-    segnales = ["Escalon Unitario", "Onda Cuadrada",
-                "Onda triangular", "Seno", "Coseno"]
+    segnales = [
+        "Escalon Unitario",
+        "Onda Cuadrada",
+        "Onda triangular",
+        "Seno",
+        "Coseno",
+    ]
 
     resp = st.sidebar.selectbox("Tipo de señal", segnales)
 
     st.sidebar.header("Definición del tiempo:")
     st.sidebar.subheader("Rango")
     # SelectBox
-    t0 = int(st.sidebar.selectbox(
-        "", range(0, 10)
-    ))
+    t0 = int(st.sidebar.selectbox("", range(0, 10)))
     ti = 0
     tf = t0
     n = 10000
     t = tiempo(ti, tf, n)
     st.sidebar.subheader("Amplitud de la señal")
-    amplitud = int(st.sidebar.selectbox(
-        "", range(1, 10)
-    ))
+    amplitud = int(st.sidebar.selectbox("", range(1, 10)))
 
     # numpy.ndarray
     if resp == "Escalon Unitario":
@@ -137,28 +138,20 @@ def main():
         resultado = u(amplitud, t)
     elif resp == "Onda Cuadrada":
         st.sidebar.subheader("Frecuencia de la señal")
-        fs = int(st.sidebar.selectbox(
-            "", range(1, 11)
-        ))
+        fs = int(st.sidebar.selectbox("", range(1, 11)))
         resultado = OndaCuadrada(amplitud, t, fs)
     elif resp == "Onda triangular":
         simetria = 0.5
         st.sidebar.subheader("Frecuencia de la señal")
-        fs = int(st.sidebar.selectbox(
-            "", range(1, 11)
-        ))
+        fs = int(st.sidebar.selectbox("", range(1, 11)))
         resultado = segnal_triangular(amplitud, simetria, t, fs)
     elif resp == "Seno":
         st.sidebar.subheader("Frecuencia de la señal")
-        fs = int(st.sidebar.selectbox(
-            "", range(1, 11)
-        ))
+        fs = int(st.sidebar.selectbox("", range(1, 11)))
         resultado = seno(amplitud, t, fs)
     elif resp == "Coseno":
         st.sidebar.subheader("Frecuencia de la señal")
-        fs = int(st.sidebar.selectbox(
-            "", range(1, 11)
-        ))
+        fs = int(st.sidebar.selectbox("", range(1, 11)))
         resultado = coseno(amplitud, t, fs)
     else:
         resultado = 0
@@ -171,7 +164,7 @@ def main():
     ax.set_xlim(ti, tf)
     ax.set_xlabel("Tiempo")
     ax.set_ylabel("f(t)")
-    ax.set_ylim(2*amplitud*-1, 2*amplitud)
+    ax.set_ylim(2 * amplitud * -1, 2 * amplitud)
     st.pyplot(fig)
 
 
