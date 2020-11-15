@@ -1,11 +1,13 @@
+"""WebApp with streamlit graph signals."""
 import matplotlib.pylab as plt  # type: ignore
 import numpy as np  # type: ignore
-import scipy.signal as sp  # type: ignore
 import streamlit as st  # type: ignore
+from scipy import signal  # type: ignore # pylint: disable=import-error
 
 
 def u(amplitud: int, t: np.ndarray) -> np.ndarray:
-    """Función escalón unitario
+    """Función escalón unitario.
+
     Args:
         amplitud(int): Amplitud del escalon
         t(np.ndarray): Lista de tiempo
@@ -17,7 +19,8 @@ def u(amplitud: int, t: np.ndarray) -> np.ndarray:
 
 
 def onda_cuadrada(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
-    """Función  de Onda Cuadrada
+    """Función  de Onda Cuadrada.
+
     Args:
         amplitud(int): Amplitud de la segnal
         t(list): Lista de valores de tiempo
@@ -26,13 +29,14 @@ def onda_cuadrada(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
     Returns:
         list: Lista de valores
     """
-    return ((sp.square(2 * fs * t)) * (amplitud / 2.0)) + (amplitud / 2.0)
+    return ((signal.square(2 * fs * t)) * (amplitud / 2.0)) + (amplitud / 2.0)
 
 
 def segnal_triangular(
     amplitud: int, simetria: float, t: np.ndarray, fs: int = 1
 ) -> np.ndarray:
-    """Señal triangular
+    """Señal triangular.
+
     Args:
         amplitud(int): Amplitud de la señal
         simetria(float): simetria de la señal
@@ -46,7 +50,7 @@ def segnal_triangular(
 
 
 def seno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
-    """Onda Seno
+    """Onda Seno.
 
     Args:
         amplitud(int): Amplitud de la señal
@@ -60,7 +64,7 @@ def seno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
 
 
 def coseno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
-    """Señal de coseno
+    """Señal de coseno.
 
     Args:
         amplitud (int): Amplitud de la señal
@@ -74,7 +78,8 @@ def coseno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
 
 
 def tiempo(lim_inf: int, lim_sup: int, n: int) -> np.ndarray:
-    """Lista de valores que definen el tiempo de la señal
+    """Lista de valores que definen el tiempo de la señal.
+
     Args:
         lim_inf (int): Límite inferior del tiempo
         lim_sup (int): Límite superior del tiempo
@@ -83,14 +88,15 @@ def tiempo(lim_inf: int, lim_sup: int, n: int) -> np.ndarray:
     Returns:
         np.ndarray: Lista de valores del tiemmpo
     """
-
     return np.linspace(lim_inf, lim_sup, n)
 
 
 def main():
-    # Definir título
-    st.title("Generación de gráficas de señales")
-    st.sidebar.header("Entradas:")
+    """Ejecución Streamlit webApp."""
+    st.title(  # pylint: disable=no-value-for-parameter
+        "Generación de gráficas de señales"
+    )  # pylint: disable=no-value-for-parameter
+    st.sidebar.header("Entradas:")  # pylint: disable=no-value-for-parameter
     segnales = [
         "Escalon Unitario",
         "Onda Cuadrada",
