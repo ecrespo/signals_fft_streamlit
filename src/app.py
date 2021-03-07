@@ -4,8 +4,10 @@ import numpy as np  # type: ignore
 import streamlit as st  # type: ignore
 from scipy import signal  # type: ignore # pylint: disable=import-error
 
+np.random.seed(1234)
 
-def u(amplitud: int, t: np.ndarray) -> np.ndarray:
+
+def u(amplitud: int, t):
     """Función escalón unitario.
 
     Args:
@@ -18,7 +20,7 @@ def u(amplitud: int, t: np.ndarray) -> np.ndarray:
     return amplitud * np.piecewise(t, [t < 0.0, t >= 0.0], [0, 1])
 
 
-def onda_cuadrada(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
+def onda_cuadrada(amplitud: int, t, fs: int = 1):
     """Función  de Onda Cuadrada.
 
     Args:
@@ -32,9 +34,7 @@ def onda_cuadrada(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
     return ((signal.square(2 * fs * t)) * (amplitud / 2.0)) + (amplitud / 2.0)
 
 
-def segnal_triangular(
-    amplitud: int, simetria: float, t: np.ndarray, fs: int = 1
-) -> np.ndarray:
+def segnal_triangular(amplitud: int, simetria: float, t, fs: int = 1):
     """Señal triangular.
 
     Args:
@@ -49,7 +49,7 @@ def segnal_triangular(
     return amplitud * (signal.sawtooth(2 * np.pi * fs * t, simetria))
 
 
-def seno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
+def seno(amplitud: int, t, fs: int = 1):
     """Onda Seno.
 
     Args:
@@ -63,7 +63,7 @@ def seno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
     return amplitud * np.sin(fs * t)
 
 
-def coseno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
+def coseno(amplitud: int, t, fs: int = 1):
     """Señal de coseno.
 
     Args:
@@ -77,7 +77,7 @@ def coseno(amplitud: int, t: np.ndarray, fs: int = 1) -> np.ndarray:
     return amplitud * np.cos(fs * t)
 
 
-def tiempo(lim_inf: int, lim_sup: int, n: int) -> np.ndarray:
+def tiempo(lim_inf: int, lim_sup: int, n: int):
     """Lista de valores que definen el tiempo de la señal.
 
     Args:
@@ -94,7 +94,7 @@ def tiempo(lim_inf: int, lim_sup: int, n: int) -> np.ndarray:
 def main():
     """Ejecución Streamlit webApp."""
     st.title(  # pylint: disable=no-value-for-parameter
-        "Generación de gráficas de señales"
+        "Generación de gráficas de señales",
     )  # pylint: disable=no-value-for-parameter
     st.sidebar.header("Entradas:")  # pylint: disable=no-value-for-parameter
     segnales = [
